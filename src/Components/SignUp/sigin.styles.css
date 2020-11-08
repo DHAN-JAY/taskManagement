@@ -1,0 +1,67 @@
+.signUpContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9f8fc;
+}
+.signUpInnerContainer {
+  min-width: 300px;
+  min-height: 450px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  max-width: 300px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px grey;
+  background-color: white;
+  flex-direction: column;
+}
+.signUpHeader {
+  width: 100%;
+  height: 80px;
+  background-color: darkslategray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px 10px 0px 0px;
+}
+.signUpHeaderText {
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+  text-align: center;
+  opacity: 0.7;
+}
+.signUpText {
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+  letter-spacing: 2px;
+}
+.signUpBody {
+  width: -webkit-fill-available;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}
+.signUpButton {
+  width: 100%;
+  height: 55px;
+  margin: 10px 0px 10px 0px;
+}
+.signUpRegistered {
+    font-family: sans-serif;
+    color: grey;
+}
+.anchor {
+    color: blue;
+    cursor: pointer;
+}
