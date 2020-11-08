@@ -1,0 +1,31 @@
+.mainCardContainer {
+    min-width: 300px;
+    min-height: 30px;
+    width: calc(100% - 30px);
+    height: fit-content;
+    padding: 15px;
+    margin: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px grey;
+    background-color: white;
+}
+
+.headerCardClass {
+    width: calc(100% - 20px);
+    height: 60px;
+    margin: 0px 0px 15px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    padding: 0px 10px 0px 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .mainCardContainer {
+        width: calc(100% - 40px);
+    }
+}
