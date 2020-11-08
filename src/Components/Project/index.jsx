@@ -4,6 +4,7 @@ import Card from '../Shared/Card'
 import CustomIcon from '../Shared/CustomIcon'
 import CustomTable from '../Shared/CustomTable'
 import Layout from '../Shared/Layout'
+import Selector from '../Shared/Selector'
 
 /**
  * Used to show the basic Project of the app.
@@ -20,11 +21,11 @@ const Project = () => {
                 className='headerCardClass'
             >
                 <div>
-                    <span>
-                        Project
+                    <span className="cardSubLabel">
+                        Projects
                     </span>
                 </div>
-                <div>
+                <div className="createCardButton">
                     <CustomIcon
                         name={ICON_NAME.create}
                     />
@@ -49,10 +50,28 @@ const Project = () => {
                     }
                 ]}
                 columns={[
-                    { dataField: 'name', label: 'Name'},
+                    { dataField: 'name', label: 'Name', size: 'small'},
                     { dataField: 'description', label: 'Description'},
-                    { dataField: 'action', label: 'Action'}
+                    { dataField: 'action', label: 'Action', size: 'small'}
                 ]}
+                columnComponents={{
+                    action: () => {
+                        return (
+                            <div>
+                                <Selector
+                                     label="Projects"
+                                     onChange={() => {}}
+                                     dataProvider={[
+                                         { value: 'project1', label: 'Something'}
+                                     ]}
+                                     width='80%'
+                                     marginTop={2}
+                                     value={'project1'}
+                                />
+                            </div>
+                        )
+                    }
+                }}
             />
         </Layout>
     )

@@ -5,6 +5,7 @@ const CustomTable = ({
     width,
     height,
     columns,
+    columnComponents,
     data,
     ...rest
 }) => {
@@ -18,7 +19,7 @@ const CustomTable = ({
                 columns.map((column, index) => {
 
                   return (
-                    <TableCell key={index}>
+                    <TableCell key={index} size={column.size}>
                       {column.label}
                     </TableCell>
                   )
@@ -32,10 +33,14 @@ const CustomTable = ({
                 <TableRow key={ind}>
                   {columns && columns.length &&
                     columns.map((column, index) => {
-    
+                      const Component = columnComponents && columnComponents[column.dataField]
                       return (
-                        <TableCell key={index}>
-                          {row[column.dataField]}
+                        <TableCell key={index} size={column.size}>
+                          {Component ?
+                            <Component />
+                            :
+                            row[column.dataField]
+                          }
                         </TableCell>
                       )
                     })

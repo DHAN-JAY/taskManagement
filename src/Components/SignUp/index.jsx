@@ -8,6 +8,8 @@ import Selector from "../Shared/Selector";
 import { Roles } from "../../AppConfig/constants";
 import toaster from "../../AppConfig/MessageToaster/actions";
 import { useDispatch } from "react-redux";
+import API from "../../AppConfig/Api";
+import { API_CONSTANT } from "../../AppConfig/APIConstants";
 
 /**
  * Used to show the basic SignUp of the app.
@@ -76,6 +78,18 @@ const SignUp = () => {
         dispatch(toaster.error("password and confirm passwords are not same"));
         return;
       }
+      API.post(API_CONSTANT.signUp, {
+        "username": values.userName,
+        "role": values.role,
+        "email": values.email,
+        "password": values.password
+      }).then(() => {
+          dispatch(toaster.success('Account is successfully created. Please Login.'))
+          history.push('/login')
+      })
+      .catch(error => {
+          console.log(error)
+      })
   }
 
   return (

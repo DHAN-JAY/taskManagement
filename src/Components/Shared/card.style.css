@@ -24,6 +24,22 @@
     padding: 0px 10px 0px 10px;
 }
 
+.cardSubLabel {
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: bold;
+    line-height: 60px;
+    margin-right: 20px;
+}
+
+.createCardButton :hover {
+    background-color: rgb(165, 241, 241);
+    opacity: 0.5;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
     .mainCardContainer {
         width: calc(100% - 40px);

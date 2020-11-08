@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@material-ui/core";
 import React from "react";
 
 const Selector = ({
@@ -9,11 +9,12 @@ const Selector = ({
   margin,
   width,
   minWidth = "120",
+  marginTop = 10
 }) => {
   return (
     <FormControl
       variant="outlined"
-      style={{ margin: margin, minWidth: minWidth, marginTop: 10, width: width }}
+      style={{ margin: margin, minWidth: minWidth, marginTop: marginTop, width: width }}
     >
       <InputLabel id="demo-simple-select-outlined-label">{label}</InputLabel>
       <Select

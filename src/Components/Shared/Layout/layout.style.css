@@ -43,6 +43,7 @@
     justify-content: flex-start;
     align-items: center;
     background-color: #70dcf7;
+    z-index: 2;
 }
 @media screen and (max-width: 600px) {
     .sidebarContainer {

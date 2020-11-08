@@ -58,8 +58,10 @@ const Login = () => {
     }).then(result => {
         localStorage.setItem('user_details', JSON.stringify({
             token: result.accessToken,
-            id: '12345'
+            id: '12345',
+            ...result
         }))
+        history.push('/')
     })
     .catch(error => {
         console.log(error)

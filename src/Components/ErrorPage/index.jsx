@@ -19,8 +19,7 @@ const ErrorPage = ({
 
     return (
         <div>
-            <Layout />
-            404 error
+            404 not found error
         </div>
     )
 }
