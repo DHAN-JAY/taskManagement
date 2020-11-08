@@ -48,10 +48,6 @@ const SignUp = () => {
     history.push("/login");
   };
 
-  const handleChangeRole = (data) => {
-    console.log(data);
-  };
-
   return (
     <div className="signUpContainer">
       <div className="signUpInnerContainer">
