@@ -44,7 +44,6 @@
     letter-spacing: 2px;
 }
 .loginBody {
-    width: -webkit-fill-available;
     height: 350px;
     padding: 10px;
     display: flex;
@@ -66,8 +65,12 @@
 .loginNotRegistered {
     font-family: sans-serif;
     color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .anchor {
     color: blue;
     cursor: pointer;
+    margin-left: 5px;
 }

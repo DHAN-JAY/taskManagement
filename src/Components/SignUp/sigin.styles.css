@@ -60,8 +60,12 @@
 .signUpRegistered {
     font-family: sans-serif;
     color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .anchor {
     color: blue;
     cursor: pointer;
+    margin-left: 5px;
 }

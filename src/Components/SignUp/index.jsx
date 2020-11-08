@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import TextField from "../Shared/TextField";
 import "./sigin.styles.css";
 import { useHistory } from "react-router-dom";
+import Selector from "../Shared/Selector";
+import { Roles } from "../../AppConfig/constants";
 
 /**
  * Used to show the basic SignUp of the app.
@@ -43,8 +45,12 @@ const SignUp = () => {
   };
 
   const handleRouteSignIn = () => {
-      history.push('/login')
-  }
+    history.push("/login");
+  };
+
+  const handleChangeRole = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="signUpContainer">
@@ -65,11 +71,12 @@ const SignUp = () => {
               value={values.email}
               onChange={handleChange("email")}
             />
-            <TextField
+            <Selector
               label="Role"
-              margin="10px 0px 0px 0px"
-              value={values.role}
               onChange={handleChange("role")}
+              dataProvider={Roles}
+              width='100%'
+              value={values.role}
             />
             <TextField
               label="Password"
@@ -124,7 +131,10 @@ const SignUp = () => {
             </Button>
           </div>
           <small className="signUpRegistered">
-            Registered? <a className="anchor" onClick={handleRouteSignIn}>Sign In</a>
+            Registered?
+            <p className="anchor" onClick={handleRouteSignIn}>
+              Sign In
+            </p>
           </small>
         </div>
       </div>

@@ -30,3 +30,9 @@ export const mainMenuItems = [
 ]
 
 export const excludeAuthorization = ['/sign-up', '/login']
+
+export const Roles =  [
+    { label: "Admin", value: "admin" },
+    { label: "Developer", value: "developer" },
+    { label: "Manager", value: "manager" },
+  ];

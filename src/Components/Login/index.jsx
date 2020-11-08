@@ -77,7 +77,7 @@ const Login = () => {
             Sign In
           </Button>
           <small className="loginNotRegistered">
-            Not Registered? <a className="anchor" onClick={handleRouteSignUp}>Sign Up</a>
+            Not Registered? <p className="anchor" onClick={handleRouteSignUp}>Sign Up</p>
           </small>
         </div>
       </div>
