@@ -6,6 +6,8 @@ import "./sigin.styles.css";
 import { useHistory } from "react-router-dom";
 import Selector from "../Shared/Selector";
 import { Roles } from "../../AppConfig/constants";
+import toaster from "../../AppConfig/MessageToaster/actions";
+import { useDispatch } from "react-redux";
 
 /**
  * Used to show the basic SignUp of the app.
@@ -17,6 +19,7 @@ import { Roles } from "../../AppConfig/constants";
 */
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [values, setValues] = useState({
     userName: "",
@@ -47,6 +50,33 @@ const SignUp = () => {
   const handleRouteSignIn = () => {
     history.push("/login");
   };
+
+  const handleOnSignUp = () => {
+    if (!values.userName) {
+        dispatch(toaster.error("Please enter User Name"));
+        return;
+      }
+      if (!values.email) {
+        dispatch(toaster.error("Please enter email"));
+        return;
+      }
+      if (!values.role) {
+        dispatch(toaster.error("Please select a role"));
+        return;
+      }
+      if (!values.password) {
+        dispatch(toaster.error("Please enter password"));
+        return;
+      }
+      if (!values.confirmPassword) {
+        dispatch(toaster.error("Please enter confirmPassword"));
+        return;
+      }
+      if(values.confirmPassword !== values.password){
+        dispatch(toaster.error("password and confirm passwords are not same"));
+        return;
+      }
+  }
 
   return (
     <div className="signUpContainer">
@@ -122,6 +152,7 @@ const SignUp = () => {
               variant="contained"
               color="primary"
               className="signUpButton"
+              onClick={handleOnSignUp}
             >
               Sign Up
             </Button>

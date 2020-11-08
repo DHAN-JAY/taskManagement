@@ -4,6 +4,10 @@ import { Button, IconButton, InputAdornment } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import TextField from "../Shared/TextField";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import toaster from "../../AppConfig/MessageToaster/actions";
+import API from '../../AppConfig/Api'
+import { API_CONSTANT } from "../../AppConfig/APIConstants";
 
 /**
  * Used to login into the application as Amin, Manager and Developer.
@@ -14,6 +18,7 @@ import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [values, setValues] = useState({
     userName: "",
@@ -34,8 +39,32 @@ const Login = () => {
   };
 
   const handleRouteSignUp = () => {
-      history.push('/sign-up')
-  }
+    history.push("/sign-up");
+  };
+
+  const handleOnSignIn = () => {
+    if (!values.userName) {
+      dispatch(toaster.error("Please Enter User Name"));
+      return;
+    }
+    if (!values.password) {
+      dispatch(toaster.error("Please Enter Password to proceed"));
+      return;
+    }
+
+    API.post(API_CONSTANT.login,{
+        email: values.userName,
+        password: values.password
+    }).then(result => {
+        localStorage.setItem('user_details', JSON.stringify({
+            token: result.accessToken,
+            id: '12345'
+        }))
+    })
+    .catch(error => {
+        console.log(error)
+    })
+  };
 
   return (
     <div className="loginContainer">
@@ -73,11 +102,19 @@ const Login = () => {
               }
             />
           </section>
-          <Button variant="contained" color="primary" className="signInButton">
+          <Button
+            variant="contained"
+            color="primary"
+            className="signInButton"
+            onClick={handleOnSignIn}
+          >
             Sign In
           </Button>
           <small className="loginNotRegistered">
-            Not Registered? <p className="anchor" onClick={handleRouteSignUp}>Sign Up</p>
+            Not Registered?{" "}
+            <p className="anchor" onClick={handleRouteSignUp}>
+              Sign Up
+            </p>
           </small>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { excludeAuthorization } from '../constants'
 
 
 const parsedError = (response) => {
@@ -57,4 +58,5 @@ instance.interceptors.response.use((response) => {
     return Promise.reject((error.response && error.response.data) ? error.response.data : error)
 })
 
-export const API = instance
+const API = instance
+export default API
