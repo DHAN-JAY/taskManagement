@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-// import CustomIcon from '../../Components/Shared/components/CustomIcon'
-// import { ICON_NAME } from '../constants'
+import CustomIcon from '../../Components/Shared/CustomIcon'
+import { ICON_NAME } from '../constants'
 import { TOASTER_CLASSES_ICON } from './constants'
+import './toaster.styles.css'
 const TIMEOUT = 5400
 
 const MessageContainer = (props) => {
@@ -44,7 +45,7 @@ const MessageContainer = (props) => {
 
     return (
         <div className={toast_style.container} key={keyText} id={'message-container-'+ keyText + index} style={style}  >
-            {/* <CustomIcon
+            <CustomIcon
                 onClick={onClose}
                 style={{
                     position: 'absolute',
@@ -52,13 +53,8 @@ const MessageContainer = (props) => {
                     right: '10px',
                     color: toast_style.closeIconColor,
                 }}
-                name={ICON_NAME.CLOSE_APP_MAIN_MENU}  
-            /> */}
-            <div className="icon">
-                <div className={toast_style.icon}>
-                    <span className={toast_style.iconClass}></span>
-                </div>
-            </div>
+                name={ICON_NAME.close}  
+            />
             <div className="message-sec">
                 <p>{toast_style.label}</p>
                 <p>

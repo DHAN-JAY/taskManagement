@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import MessageContainer from './MessageContainer'
 import toaster from './actions'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const MessageToaster = ({ messageList, dispatch }) => {
+const MessageToaster = () => {
     const [messages, updateMessageList] = useState([])
+    const dispatch = useDispatch()
+    const messageList = useSelector(state => state.toaster.messageList)
     const current = {
         top: 30
     }
@@ -42,11 +44,4 @@ const MessageToaster = ({ messageList, dispatch }) => {
     )
 }
 
-const mapStateToProps = ({ toaster }) => {
-
-    return {
-        messageList: toaster.messageList
-    }
-}
-
-export default connect(mapStateToProps)(MessageToaster)
+export default MessageToaster

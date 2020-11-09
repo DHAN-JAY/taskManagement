@@ -1,7 +1,8 @@
-import React from 'react'
-import InputButton from '../InputButton'
-import CustomModal from '../CustomModal'
-import commonStyles from '../styles/common'
+import React, { useState } from 'react'
+import CustomModal from '../Shared/CustomModal'
+import InputButton from '../Shared/InputButton'
+import commonStyles from '../Shared/styles/common'
+import TaskForm from './TaskForm'
 
 /**
  * Used to show confirmation dialog with two button continue and cancel.
@@ -18,8 +19,14 @@ import commonStyles from '../styles/common'
  }} props
 */
 
-const CreateTaskModule = ({ message, heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
+const CreateTaskModal = ({ heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
     const commonClasses = commonStyles()
+    const [values, setValues] = useState(
+        {
+        projectName: "",
+        description: "",
+        assignedDeveloper: 0
+      });
 
     const footerComponent = () => {
 
@@ -59,7 +66,7 @@ const CreateTaskModule = ({ message, heading, okText, cancelText, onContinueClic
     const bodyComponent = () => {
 
         return (
-            <span>{message}</span>
+            <TaskForm values={values} setValues={setValues} />
         )
     }
 
@@ -75,4 +82,4 @@ const CreateTaskModule = ({ message, heading, okText, cancelText, onContinueClic
 
 }
 
-export default CreateTaskModule
+export default CreateTaskModal

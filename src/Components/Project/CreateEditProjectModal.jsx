@@ -1,7 +1,8 @@
-import React from 'react'
-import InputButton from '../InputButton'
-import CustomModal from '../CustomModal'
-import commonStyles from '../styles/common'
+import React, { useState } from 'react'
+import CustomModal from '../Shared/CustomModal'
+import InputButton from '../Shared/InputButton'
+import commonStyles from '../Shared/styles/common'
+import ProjectForm from './ProjectForm'
 
 /**
  * Used to show confirmation dialog with two button continue and cancel.
@@ -10,6 +11,7 @@ import commonStyles from '../styles/common'
  @typedef Message(string) value to be shown as a message in dialog 
  @typedef Label(string) value to show as a label
  @param {{
+    initialData InitialData
     heading Label
     message Message,
     okText Label,
@@ -18,8 +20,18 @@ import commonStyles from '../styles/common'
  }} props
 */
 
-const ConfirmationDialog = ({ message, heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
+const CreateEditProjectModal = ({ edit, initialData, heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
     const commonClasses = commonStyles()
+    const [values, setValues] = useState(edit ? {
+        projectName: initialData && initialData.name,
+        description: initialData && initialData.description,
+        assignedManager: 0
+    } :
+      {
+      projectName: "",
+      description: "",
+      assignedManager: 0
+    });
 
     const footerComponent = () => {
 
@@ -59,7 +71,7 @@ const ConfirmationDialog = ({ message, heading, okText, cancelText, onContinueCl
     const bodyComponent = () => {
 
         return (
-            <span>{message}</span>
+           <ProjectForm values={values} setValues={setValues} edit={edit} />
         )
     }
 
@@ -69,10 +81,11 @@ const ConfirmationDialog = ({ message, heading, okText, cancelText, onContinueCl
             heading={heading || "Confirmation Dialog"}
             closeModal={onCancelClick}
             component={bodyComponent}
+            width={300}
             footerComponent={footerComponent}
         />
     )
 
 }
 
-export default ConfirmationDialog
+export default CreateEditProjectModal

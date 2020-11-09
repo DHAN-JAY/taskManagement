@@ -8,6 +8,7 @@ import CustomTable from '../Shared/CustomTable'
 import InputButton from '../Shared/InputButton'
 import Layout from '../Shared/Layout'
 import commonStyles from '../Shared/styles/common'
+import CreateEditProjectModal from './CreateEditProjectModal'
 
 /**
  * Used to show the basic Project of the app.
@@ -18,6 +19,7 @@ import commonStyles from '../Shared/styles/common'
 
 const Project = () => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(null)
+    const [showProjectFormModal, setShowProjectFormModal] = useState(null)
     const commonClasses = commonStyles()
     const user = JSON.parse(localStorage.getItem('user_details'))
 
@@ -45,6 +47,57 @@ const Project = () => {
                     onContinueClick={showConfirmDialog.onContinueClick}
                 />
             } 
+            {showProjectFormModal &&
+                <CreateEditProjectModal
+                    open={Boolean(showProjectFormModal)}
+                    heading={showProjectFormModal.heading}
+                    initialData={showProjectFormModal.initialData}
+                    okText={showProjectFormModal.okText}
+                    edit={showProjectFormModal.edit}
+                    cancelText={'Cancel'}
+                    onCancelClick={() => {
+                        setShowProjectFormModal(null)
+                    }}
+                    onContinueClick={(updatedData) => {
+                        // if (!values.userName) {
+                        //     dispatch(toaster.error("Please enter User Name"));
+                        //     return;
+                        //   }
+                        //   if (!values.email) {
+                        //     dispatch(toaster.error("Please enter email"));
+                        //     return;
+                        //   }
+                        //   if (!values.role) {
+                        //     dispatch(toaster.error("Please select a role"));
+                        //     return;
+                        //   }
+                        //   if (!values.password) {
+                        //     dispatch(toaster.error("Please enter password"));
+                        //     return;
+                        //   }
+                        //   if (!values.confirmPassword) {
+                        //     dispatch(toaster.error("Please enter confirmPassword"));
+                        //     return;
+                        //   }
+                        //   if(values.confirmPassword !== values.password){
+                        //     dispatch(toaster.error("password and confirm passwords are not same"));
+                        //     return;
+                        //   }
+                        //   API.post(API_CONSTANT.signUp, {
+                        //     "username": values.userName,
+                        //     "role": values.role,
+                        //     "email": values.email,
+                        //     "password": values.password
+                        //   }).then(() => {
+                        //       dispatch(toaster.success('Account is successfully created. Please Login.'))
+                        //       history.push('/login')
+                        //   })
+                        //   .catch(error => {
+                        //       console.log(error)
+                        //   })
+                    }}
+                />
+            } 
             <Card 
                 className='headerCardClass'
             >
@@ -53,7 +106,16 @@ const Project = () => {
                         Projects
                     </span>
                 </div>
-                <div className="createCardButton">
+                <div className="createCardButton"
+                    onClick={() => {
+                        setShowProjectFormModal({
+                            heading: 'Create Project',
+                            okText: 'Create',
+                            initialData: null,
+                            edit: false
+                        })
+                    }}
+                >
                     <CustomIcon
                         name={ICON_NAME.create}
                     />
@@ -115,17 +177,14 @@ const Project = () => {
                                         {
                                             type: 'button',
                                             onClick: () => {
-                                                setShowConfirmDialog({
-                                                    message: 'Are you sure you want to remove the project? ',
-                                                    okText: 'Yes',
-                                                    cancelText: 'No',
-                                                    heading: 'Delete',
-                                                    onCancelClick: () => {
-                                                        setShowConfirmDialog(null)
-                                                    },
-                                                    onContinueClick: () => {
-                                                        setShowConfirmDialog(null)
-                                                        //@to-do api call
+                                                setShowProjectFormModal({
+                                                    heading: 'Edit Project',
+                                                    okText: 'Edit',
+                                                    edit: true,
+                                                    initialData: {
+                                                        name: 'Something',
+                                                        description: 'test',
+                                                        assignedManager: 0
                                                     }
                                                 })
                                             }

@@ -7,6 +7,7 @@ import CustomTable from '../Shared/CustomTable'
 import InputCheckbox from '../Shared/InputCheckbox'
 import Layout from '../Shared/Layout'
 import Selector from '../Shared/Selector'
+import CreateTaskModal from './CreateTaskModal'
 
 /**
  * Used to show the Tasks of the users.
@@ -19,6 +20,7 @@ import Selector from '../Shared/Selector'
 
 const Task = () => {
     const [selectedProject, setSelectedProject] = useState('')
+    const [showTaskFormModal, setShowTaskFormModal] = useState(false)
     const handleProjectFilterChange = (evt) => {
         setSelectedProject(evt.target.value)
     }
@@ -26,6 +28,20 @@ const Task = () => {
 
     return (
         <Layout>
+            {showTaskFormModal &&
+                <CreateTaskModal
+                    open={Boolean(showTaskFormModal)}
+                    heading={"Create Task"}
+                    okText={"Create"}
+                    cancelText={'Cancel'}
+                    onCancelClick={() => {
+                        setShowTaskFormModal(null)
+                    }}
+                    onContinueClick={(updatedData) => {
+
+                    }}
+                />
+            }
             <Card 
                 className="headerCardClass"
                 style={{
@@ -41,7 +57,9 @@ const Task = () => {
                         Tasks
                     </span>
                     <div style={{
-                        width: '300px'
+                        minWidth: '130px',
+                        maxWidth: '240px',
+                        width: window.outerWidth*0.3
                     }}>
                         <Selector
                             label="Projects"
@@ -57,7 +75,11 @@ const Task = () => {
                 </div>
                 {user && 
                     (user.role === ROLES_CONSTANTS.manager) &&
-                    <div className="createCardButton">
+                    <div className="createCardButton"
+                        onClick={() => {
+                            setShowTaskFormModal(true)
+                        }}
+                    >
                         <CustomIcon
                             name={ICON_NAME.create}
                         />

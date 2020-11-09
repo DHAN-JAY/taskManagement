@@ -1,0 +1,19 @@
+.success-popup-container {
+    background-color: teal;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+.error-popup-container {
+    background-color: tomato;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+.warning-popup-container {
+    background-color: yellowgreen;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+
+.message-sec p {
+    color: white;
+}
