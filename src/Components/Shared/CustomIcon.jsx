@@ -1,5 +1,5 @@
 import React from 'react'
-import { AddBox, Assignment, Close, EventNote, Home, Menu, PowerSettingsNew } from '@material-ui/icons'
+import { AccountCircle, AddBox, Assignment, Close, EventNote, Home, Menu, PowerSettingsNew } from '@material-ui/icons'
 import { ICON_NAME } from '../../AppConfig/constants'
 
 /**
@@ -39,6 +39,9 @@ const CustomIcon = ({
         }
         case ICON_NAME.create: {
             return <AddBox style={style} />
+        }
+        case ICON_NAME.avatar: {
+            return <AccountCircle style={style} />
         }
         default: 
         return null

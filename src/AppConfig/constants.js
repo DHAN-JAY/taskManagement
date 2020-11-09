@@ -5,7 +5,8 @@ export const ICON_NAME = {
     close: 'close',
     home: 'home',
     logout: 'logout',
-    create: 'create'
+    create: 'create',
+    avatar: 'avatar'
 }
 
 export const mainMenuItems = [
