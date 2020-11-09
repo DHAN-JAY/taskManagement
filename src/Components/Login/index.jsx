@@ -59,7 +59,8 @@ const Login = () => {
         localStorage.setItem('user_details', JSON.stringify({
             token: result.accessToken,
             id: '12345',
-            ...result
+            ...result,
+            role: result.role.toString().toLowerCase(),
         }))
         history.push('/')
     })
