@@ -31,8 +31,23 @@ export const mainMenuItems = [
 
 export const excludeAuthorization = ['/sign-up', '/login']
 
+export const ROLES_CONSTANTS = {
+    admin: "admin",
+    dev: "developer",
+    manager: "manager"
+}
+
 export const Roles =  [
-    { label: "Admin", value: "admin" },
-    { label: "Developer", value: "developer" },
-    { label: "Manager", value: "manager" },
-  ];
+    { label: "Admin", value: ROLES_CONSTANTS.admin },
+    { label: "Developer", value: ROLES_CONSTANTS.dev },
+    { label: "Manager", value: ROLES_CONSTANTS.manager },
+];
+export const STATUS_CONSTANTS = {
+    inProgress: 'In Progress',
+    completed: 'Completed'
+}
+
+export const statusData =  [
+    { label: "In Progress", value: STATUS_CONSTANTS.inProgress },
+    { label: "Completed", value: STATUS_CONSTANTS.completed }
+];

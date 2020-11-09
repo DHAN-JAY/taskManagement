@@ -1,0 +1,35 @@
+.modal-main-container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    z-index: 1300;
+    background: rgb(0, 0, 0, 0.6);
+}
+
+.modal-container {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    min-height: 100px;
+    background: rgb(244, 242, 242, 1);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px wheat;
+}
+
+.close-modal-icon {
+    font-size: 3.5rem !important;
+    padding: 5px;
+    position: absolute;
+    border-radius: 50%;
+    right: 0px;
+    top: 0px;
+}
+
+.close-modal-icon:hover {
+    background: #de8f8f;
+}
+

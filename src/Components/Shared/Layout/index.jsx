@@ -11,16 +11,13 @@ import './layout.style.css'
  * Used to show the basic layout of the app.
  * It also includes sidebar component which controles the routing of the menus
  @returns {*}
- @typedef Heading(string) value to be shown as a header 
  @typedef Children(object) whole component to be shown inside the layout
  @param {{
-    heading Heading,
     children Children
  }} props
 */
 
 const Layout = ({
-    heading,
     children
 }) => {
     const showSidebarDetails = useSelector(state => state.appCommon.sideBarOpen)

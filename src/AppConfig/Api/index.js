@@ -36,10 +36,10 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
-    const includeAuthorizationToken = window.location.pathname === '/' || excludeAuthorization.includes(window.location.pathname)
+    const includeAuthorizationToken = excludeAuthorization.includes(window.location.pathname)
 
     if (!includeAuthorizationToken && localStorage.getItem('user_details') && localStorage.getItem('user_details').includes('token')) {
-        config.headers.authorization = 'token ' + JSON.parse(localStorage.getItem('user_details')).token;
+        config.headers.authorization = String(JSON.parse(localStorage.getItem('user_details')).token);
     }
     config.headers['Access-Control-Allow-Origin'] = '*'
 

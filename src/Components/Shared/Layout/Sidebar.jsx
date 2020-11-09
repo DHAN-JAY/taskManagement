@@ -1,7 +1,7 @@
 import { Tooltip } from '@material-ui/core'
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { mainMenuItems } from '../../../AppConfig/constants'
+import { mainMenuItems, ROLES_CONSTANTS } from '../../../AppConfig/constants'
 import CustomIcon from '../CustomIcon'
 
 /**
@@ -19,6 +19,14 @@ const Sidebar = ({
 }) => {
     const history = useHistory()
     const location = useLocation()
+    const user = JSON.parse(localStorage.getItem('user_details'))
+    let filteredMainMenuItems = [...mainMenuItems]
+
+    if(!user || user.role !== ROLES_CONSTANTS.admin){
+        filteredMainMenuItems = filteredMainMenuItems.filter(menu => 
+            menu.name !== 'Project'
+        )
+    }
 
     if(window.outerWidth < 600 && !showDetails){
         return null
@@ -26,8 +34,8 @@ const Sidebar = ({
 
     return (
         <div className="sidebarContainer" style={{ paddingRight: showDetails ? '30px' : '0px' }}>
-            {mainMenuItems && mainMenuItems.length &&
-                mainMenuItems.map(menu => {
+            {filteredMainMenuItems && filteredMainMenuItems.length &&
+                filteredMainMenuItems.map(menu => {
                     const active = location.pathname === menu.linkTo
 
                     return (
