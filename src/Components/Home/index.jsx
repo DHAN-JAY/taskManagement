@@ -56,6 +56,7 @@ const Home = () => {
           {user.role === ROLES_CONSTANTS.manager && (
             <ol>
               <li>You can assign Developer.</li>
+              <li>You can create task for Developers.</li>
               <li>You can view and change status of the task</li>
             </ol>
           )}
