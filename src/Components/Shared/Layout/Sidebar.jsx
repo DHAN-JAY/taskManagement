@@ -39,8 +39,9 @@ const Sidebar = ({
                     const active = location.pathname === menu.linkTo
 
                     return (
-                        <Tooltip title={menu.name}>
+                        <Tooltip title={menu.name} key={menu.key}>
                         <div 
+                            key={menu.key+'-container'}
                             className={
                                 "menuIconContainer" 
                             }

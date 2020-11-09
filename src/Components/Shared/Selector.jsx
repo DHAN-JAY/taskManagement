@@ -44,8 +44,8 @@ const Selector = ({
         onChange={onChange}
         label={label}
       >
-        {dataProvider.map((data) => (
-          <MenuItem value={data.value}>{data.label}</MenuItem>
+        {dataProvider.map((data, index) => (
+          <MenuItem key={index} value={data.value}>{data.label}</MenuItem>
         ))}
       </Select>
     </FormControl>
