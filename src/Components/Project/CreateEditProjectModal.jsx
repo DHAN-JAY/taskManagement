@@ -22,16 +22,7 @@ import ProjectForm from './ProjectForm'
 
 const CreateEditProjectModal = ({ edit, initialData, heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
     const commonClasses = commonStyles()
-    const [values, setValues] = useState(edit ? {
-        projectName: initialData && initialData.name,
-        description: initialData && initialData.description,
-        assignedManager: 0
-    } :
-      {
-      projectName: "",
-      description: "",
-      assignedManager: 0
-    });
+    const [buttonDisabled, setButtonDisabled] = useState(false)
 
     const footerComponent = () => {
 
@@ -53,7 +44,12 @@ const CreateEditProjectModal = ({ edit, initialData, heading, okText, cancelText
                     buttonProps={
                         {
                             type: 'button',
-                            onClick: onContinueClick
+                            onClick: () => {
+                                if(onContinueClick && CreateEditProjectModal.getFunction){
+                                    onContinueClick(CreateEditProjectModal.getFunction(), setButtonDisabled)
+                                }
+                            },
+                            disabled: buttonDisabled
                         }
                     }
                     rootProps={{
@@ -71,12 +67,15 @@ const CreateEditProjectModal = ({ edit, initialData, heading, okText, cancelText
     const bodyComponent = () => {
 
         return (
-           <ProjectForm values={values} setValues={setValues} edit={edit} />
+           <ProjectForm getValuesGetFunction={(getFunction) => {
+            CreateEditProjectModal.getFunction = getFunction
+           }} key="project_form" initialData={initialData} edit={edit} />
         )
     }
 
     return (
         <CustomModal 
+            key="cutom_project_modal"
             open={open}
             heading={heading || "Confirmation Dialog"}
             closeModal={onCancelClick}

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ICON_NAME, ROLES_CONSTANTS } from '../../AppConfig/constants'
+import { API_CONSTANT } from '../../AppConfig/APIConstants'
 import Card from '../Shared/Card'
 import ConfirmationDialog from '../Shared/ConfirmationModal'
 import CustomIcon from '../Shared/CustomIcon'
@@ -9,9 +11,12 @@ import InputButton from '../Shared/InputButton'
 import Layout from '../Shared/Layout'
 import commonStyles from '../Shared/styles/common'
 import CreateEditProjectModal from './CreateEditProjectModal'
+import toaster from '../../AppConfig/MessageToaster/actions'
+import API from '../../AppConfig/Api'
 
 /**
- * Used to show the basic Project of the app.
+ * Used to show the project forms and edit or create button to Admin
+ * for doing different operations on projects.
  @returns {*}
  @param {{
  }} props
@@ -20,9 +25,12 @@ import CreateEditProjectModal from './CreateEditProjectModal'
 const Project = () => {
     const [showConfirmDialog, setShowConfirmDialog] = useState(null)
     const [showProjectFormModal, setShowProjectFormModal] = useState(null)
+    const dispatch = useDispatch()
+    const projects = useSelector(state => state.project.allProject)
     const commonClasses = commonStyles()
     const user = JSON.parse(localStorage.getItem('user_details'))
 
+    //this is to show other role user that he does not have the permissions
     if(!user || user.role !== ROLES_CONSTANTS.admin){
         return (
             <Layout>
@@ -58,43 +66,40 @@ const Project = () => {
                     onCancelClick={() => {
                         setShowProjectFormModal(null)
                     }}
-                    onContinueClick={(updatedData) => {
-                        // if (!values.userName) {
-                        //     dispatch(toaster.error("Please enter User Name"));
-                        //     return;
-                        //   }
-                        //   if (!values.email) {
-                        //     dispatch(toaster.error("Please enter email"));
-                        //     return;
-                        //   }
-                        //   if (!values.role) {
-                        //     dispatch(toaster.error("Please select a role"));
-                        //     return;
-                        //   }
-                        //   if (!values.password) {
-                        //     dispatch(toaster.error("Please enter password"));
-                        //     return;
-                        //   }
-                        //   if (!values.confirmPassword) {
-                        //     dispatch(toaster.error("Please enter confirmPassword"));
-                        //     return;
-                        //   }
-                        //   if(values.confirmPassword !== values.password){
-                        //     dispatch(toaster.error("password and confirm passwords are not same"));
-                        //     return;
-                        //   }
-                        //   API.post(API_CONSTANT.signUp, {
-                        //     "username": values.userName,
-                        //     "role": values.role,
-                        //     "email": values.email,
-                        //     "password": values.password
-                        //   }).then(() => {
-                        //       dispatch(toaster.success('Account is successfully created. Please Login.'))
-                        //       history.push('/login')
-                        //   })
-                        //   .catch(error => {
-                        //       console.log(error)
-                        //   })
+                    onContinueClick={(updatedData, setButtonDisabled) => {
+                          if (!updatedData.projectName) {
+                            dispatch(toaster.error("Please enter Project Name"));
+                            return;
+                          }
+                          if (!updatedData.description) {
+                            dispatch(toaster.error("Please enter Description"));
+                            return;
+                          }
+                          if (!updatedData.assignedManager) {
+                            dispatch(toaster.error("Please select a Manager to be assigned in project"));
+                            return;
+                          }
+                          setButtonDisabled(true)
+                          let payload = {
+                            "projectName": updatedData.projectName,
+                            "projectDesc": updatedData.description,
+                          }
+                          let url = API_CONSTANT.createProject
+                          if(showProjectFormModal && showProjectFormModal.edit){
+                              payload.projectId = 1
+                              url = API_CONSTANT.modifyProject
+                          } else {
+                              payload.assignedManager = parseInt(updatedData.assignedManager)
+                          }
+                          API.post(url,
+                            payload).then(() => {
+                              dispatch(toaster.success(`Project successfully ${showProjectFormModal.edit ? 'Modified': 'Created'}.`))
+                              setShowProjectFormModal(false)
+                            })
+                            .catch(error => {
+                                dispatch(toaster.error(error.message))
+                                setButtonDisabled(false)
+                          })
                     }}
                 />
             } 
@@ -122,23 +127,7 @@ const Project = () => {
                 </div>
             </Card>
             <CustomTable
-                data={[
-                    {
-                        name: 'Djay',
-                        description: '24',
-                        action: 'Admin'
-                    },
-                    {
-                        name: 'Djay1',
-                        description: '24',
-                        action: 'Admin'
-                    },
-                    {
-                        name: 'Djay2',
-                        description: '24',
-                        action: 'Admin'
-                    }
-                ]}
+                data={projects}
                 columns={[
                     { dataField: 'name', label: 'Name', size: 'small'},
                     { dataField: 'description', label: 'Description', size: 'medium'},
