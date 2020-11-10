@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICON_NAME, ROLES_CONSTANTS } from '../../AppConfig/constants'
@@ -13,6 +13,7 @@ import commonStyles from '../Shared/styles/common'
 import CreateEditProjectModal from './CreateEditProjectModal'
 import toaster from '../../AppConfig/MessageToaster/actions'
 import API from '../../AppConfig/Api'
+import { setProjectList } from './actions'
 
 /**
  * Used to show the project forms and edit or create button to Admin
@@ -29,6 +30,20 @@ const Project = () => {
     const projects = useSelector(state => state.project.allProject)
     const commonClasses = commonStyles()
     const user = JSON.parse(localStorage.getItem('user_details'))
+
+    const refreshProjects = useCallback(() => {
+        API.get(API_CONSTANT.getAllProjects)
+            .then(result => {
+                dispatch(setProjectList(result))
+            })
+            .catch(error => {
+                dispatch(toaster.error(error.message))
+            })
+    },[dispatch])
+
+    useEffect(() => {
+        refreshProjects()
+    }, [dispatch, refreshProjects])
 
     //this is to show other role user that he does not have the permissions
     if(!user || user.role !== ROLES_CONSTANTS.admin){
@@ -95,6 +110,7 @@ const Project = () => {
                             payload).then(() => {
                               dispatch(toaster.success(`Project successfully ${showProjectFormModal.edit ? 'Modified': 'Created'}.`))
                               setShowProjectFormModal(false)
+                              refreshProjects()
                             })
                             .catch(error => {
                                 dispatch(toaster.error(error.message))

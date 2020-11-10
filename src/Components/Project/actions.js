@@ -1,8 +1,8 @@
-import { APP_COMMON_ACTION_TYPES } from './constants'
+import { PROJECT_ACTION_TYPES } from './constants'
 
 export const setProjectList = (projects) => (dispatch) => {
     dispatch({
-        type: APP_COMMON_ACTION_TYPES.TOGGLE_SIDE_BAR,
+        type: PROJECT_ACTION_TYPES.SET_PROJECTS,
         payload: getSerializedProject(projects)
     })
 }
