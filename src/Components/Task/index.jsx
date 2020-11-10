@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { ICON_NAME, ROLES_CONSTANTS, STATUS_CONSTANTS, statusData } from '../../AppConfig/constants'
 import Card from '../Shared/Card'
 import CustomIcon from '../Shared/CustomIcon'
@@ -21,6 +22,7 @@ import CreateTaskModal from './CreateTaskModal'
 const Task = () => {
     const [selectedProject, setSelectedProject] = useState('')
     const [showTaskFormModal, setShowTaskFormModal] = useState(false)
+    const projects = useSelector(state => state.project.allProject)
     const handleProjectFilterChange = (evt) => {
         setSelectedProject(evt.target.value)
     }
@@ -64,9 +66,7 @@ const Task = () => {
                         <Selector
                             label="Projects"
                             onChange={handleProjectFilterChange}
-                            dataProvider={[
-                                { value: 'project1', label: 'Something'}
-                            ]}
+                            dataProvider={projects}
                             width='100%'
                             marginTop={2}
                             value={selectedProject}
