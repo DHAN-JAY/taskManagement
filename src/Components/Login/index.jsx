@@ -65,7 +65,7 @@ const Login = () => {
         history.push('/')
     })
     .catch(error => {
-        console.log(error)
+        dispatch(toaster.error(error.message))
     })
   };
 

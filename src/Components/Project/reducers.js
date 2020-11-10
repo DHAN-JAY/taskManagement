@@ -5,7 +5,7 @@ const initialState = new ProjectRecords()
 const project = (state = initialState, action) => {
 
   switch (action.type) {
-    case PROJECT_ACTION_TYPES.TOGGLE_SIDE_BAR:
+    case PROJECT_ACTION_TYPES.SET_PROJECTS:
         return state.set('allProject', action.payload)
     default:
       return state

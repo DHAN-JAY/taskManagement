@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import API from '../../AppConfig/Api'
+import { API_CONSTANT } from '../../AppConfig/APIConstants'
 import { ICON_NAME, ROLES_CONSTANTS, STATUS_CONSTANTS, statusData } from '../../AppConfig/constants'
+import toaster from '../../AppConfig/MessageToaster/actions'
+import { setProjectList } from '../Project/actions'
 import Card from '../Shared/Card'
 import CustomIcon from '../Shared/CustomIcon'
 import CustomTable from '../Shared/CustomTable'
@@ -22,11 +26,31 @@ import CreateTaskModal from './CreateTaskModal'
 const Task = () => {
     const [selectedProject, setSelectedProject] = useState('')
     const [showTaskFormModal, setShowTaskFormModal] = useState(false)
+    const dispatch = useDispatch()
     const projects = useSelector(state => state.project.allProject)
     const handleProjectFilterChange = (evt) => {
         setSelectedProject(evt.target.value)
     }
     const user = JSON.parse(localStorage.getItem('user_details'))
+
+    const refreshProjects = useCallback(() => {
+        const userDetail = JSON.parse(localStorage.getItem('user_details'))
+        if(userDetail && 
+            (userDetail.role === ROLES_CONSTANTS.manager ||
+                userDetail.role === ROLES_CONSTANTS.admin
+            ))
+        API.get(API_CONSTANT.getAllProjects)
+            .then(result => {
+                dispatch(setProjectList(result))
+            })
+            .catch(error => {
+                dispatch(toaster.error(error.message))
+            })
+    },[dispatch])
+
+    useEffect(() => {
+        refreshProjects()
+    }, [dispatch, refreshProjects])
 
     return (
         <Layout>
@@ -58,6 +82,10 @@ const Task = () => {
                     <span className="cardSubLabel">
                         Tasks
                     </span>
+                    {user && 
+                    (user.role === ROLES_CONSTANTS.manager ||
+                        user.role === ROLES_CONSTANTS.admin
+                    ) &&
                     <div style={{
                         minWidth: '130px',
                         maxWidth: '240px',
@@ -72,6 +100,7 @@ const Task = () => {
                             value={selectedProject}
                         />
                     </div>
+                    }
                 </div>
                 {user && 
                     (user.role === ROLES_CONSTANTS.manager) &&

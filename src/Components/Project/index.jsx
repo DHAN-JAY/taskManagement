@@ -90,7 +90,7 @@ const Project = () => {
                             dispatch(toaster.error("Please enter Description"));
                             return;
                           }
-                          if (!updatedData.assignedManager) {
+                          if (!updatedData.assignedManager && !showProjectFormModal.edit) {
                             dispatch(toaster.error("Please select a Manager to be assigned in project"));
                             return;
                           }
@@ -101,7 +101,7 @@ const Project = () => {
                           }
                           let url = API_CONSTANT.createProject
                           if(showProjectFormModal && showProjectFormModal.edit){
-                              payload.projectId = 1
+                              payload.projectId = parseInt(showProjectFormModal.id)
                               url = API_CONSTANT.modifyProject
                           } else {
                               payload.assignedManager = parseInt(updatedData.assignedManager)
@@ -164,7 +164,7 @@ const Project = () => {
                             </div>
                         )
                     },
-                    action: () => {
+                    action: ({ data }) => {
                         return (
                             <div style={{
                                 display: 'flex',
@@ -186,9 +186,10 @@ const Project = () => {
                                                     heading: 'Edit Project',
                                                     okText: 'Edit',
                                                     edit: true,
+                                                    id: data.value,
                                                     initialData: {
-                                                        name: 'Something',
-                                                        description: 'test',
+                                                        name: data.name,
+                                                        description: data.description,
                                                         assignedManager: 0
                                                     }
                                                 })
@@ -219,7 +220,17 @@ const Project = () => {
                                                     },
                                                     onContinueClick: () => {
                                                         setShowConfirmDialog(null)
-                                                        //@to-do api call
+                                                        // api call for delete
+                                                        API.post(API_CONSTANT.deleteProject, {
+                                                            projectId: parseInt(data.value)
+                                                        })
+                                                        .then(result => {
+                                                            dispatch(toaster.success(result.success))
+                                                            refreshProjects()
+                                                        })
+                                                        .catch(error => {
+                                                            dispatch(toaster.error(error.message))
+                                                        })
                                                     }
                                                 })
                                             }

@@ -5,5 +5,7 @@ export const API_CONSTANT = {
     createProject: 'project/createProject',
     modifyProject: 'project/modifyProject',
     getAllManagers: 'user/getAllManagers',
-    getAllProjects: 'project/getAllProjects'
+    getAllProjects: 'project/getAllProjects',
+    deleteProject: 'project/deleteProject',
+    getAllDevelopers: 'user/getAllDevelopers'
 }

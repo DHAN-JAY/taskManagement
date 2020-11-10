@@ -16,9 +16,9 @@ const getSerializedProject = (projects) => {
 
         return {
             value: project.id,
-            name: project.name,
-            description: project.description,
-            label: project.name
+            name: project.projectName,
+            description: project.projectDesc,
+            label: project.projectName
         }
     })
 }
