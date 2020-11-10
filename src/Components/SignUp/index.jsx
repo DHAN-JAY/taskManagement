@@ -10,6 +10,7 @@ import toaster from "../../AppConfig/MessageToaster/actions";
 import { useDispatch } from "react-redux";
 import API from "../../AppConfig/Api";
 import { API_CONSTANT } from "../../AppConfig/APIConstants";
+import { validateEmail } from "../../Utils/helpers";
 
 /**
  * Used to show the basic SignUp of the app.
@@ -55,42 +56,49 @@ const SignUp = () => {
 
   const handleOnSignUp = () => {
     if (!values.userName) {
-        dispatch(toaster.error("Please enter User Name"));
-        return;
-      }
-      if (!values.email) {
-        dispatch(toaster.error("Please enter email"));
-        return;
-      }
-      if (!values.role) {
-        dispatch(toaster.error("Please select a role"));
-        return;
-      }
-      if (!values.password) {
-        dispatch(toaster.error("Please enter password"));
-        return;
-      }
-      if (!values.confirmPassword) {
-        dispatch(toaster.error("Please enter confirmPassword"));
-        return;
-      }
-      if(values.confirmPassword !== values.password){
-        dispatch(toaster.error("password and confirm passwords are not same"));
-        return;
-      }
-      API.post(API_CONSTANT.signUp, {
-        "username": values.userName,
-        "role": values.role,
-        "email": values.email,
-        "password": values.password
-      }).then(() => {
-          dispatch(toaster.success('Account is successfully created. Please Login.'))
-          history.push('/login')
+      dispatch(toaster.error("Please enter User Name"));
+      return;
+    }
+    if (!values.email) {
+      dispatch(toaster.error("Please enter email"));
+      return;
+    }
+    if (!values.role) {
+      dispatch(toaster.error("Please select a role"));
+      return;
+    }
+    if (!values.password) {
+      dispatch(toaster.error("Please enter password"));
+      return;
+    }
+    if (!values.confirmPassword) {
+      dispatch(toaster.error("Please enter confirmPassword"));
+      return;
+    }
+    if (values.confirmPassword !== values.password) {
+      dispatch(toaster.error("password and confirm passwords are not same"));
+      return;
+    }
+    if (validateEmail(values.email).isError) {
+      dispatch(toaster.error(validateEmail(values.email).errorMessage));
+      return;
+    }
+    API.post(API_CONSTANT.signUp, {
+      username: values.userName,
+      role: values.role,
+      email: values.email,
+      password: values.password,
+    })
+      .then(() => {
+        dispatch(
+          toaster.success("Account is successfully created. Please Login.")
+        );
+        history.push("/login");
       })
-      .catch(error => {
-          console.log(error)
-      })
-  }
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="signUpContainer">
@@ -108,6 +116,7 @@ const SignUp = () => {
             <TextField
               label="Email"
               margin="10px 0px 0px 0px"
+              error={validateEmail(values.email).isError}
               value={values.email}
               onChange={handleChange("email")}
             />
@@ -115,7 +124,7 @@ const SignUp = () => {
               label="Role"
               onChange={handleChange("role")}
               dataProvider={Roles}
-              width='100%'
+              width="100%"
               value={values.role}
             />
             <TextField
