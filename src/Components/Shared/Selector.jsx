@@ -18,6 +18,7 @@ import React from "react";
   width string,
   minWidth string,
   marginTop Number,
+  marginBottom Number,
 }} props
 */
 
@@ -29,12 +30,13 @@ const Selector = ({
   margin,
   width,
   minWidth = "120",
-  marginTop = 10
+  marginTop = 10,
+  marginBottom = 10
 }) => {
   return (
     <FormControl
       variant="outlined"
-      style={{ margin: margin, minWidth: minWidth, marginTop: marginTop, width: width }}
+      style={{ margin: margin, minWidth: minWidth, marginTop: marginTop, marginBottom: marginBottom, width: width }}
     >
       <InputLabel id="demo-simple-select-outlined-label">{label}</InputLabel>
       <Select

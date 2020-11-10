@@ -26,6 +26,7 @@ const CreateTaskModal = ({
   onContinueClick,
   onCancelClick,
   open,
+  projects
 }) => {
   const commonClasses = commonStyles();
   const [values, setValues] = useState({
@@ -76,6 +77,7 @@ const CreateTaskModal = ({
         }}
         values={values}
         setValues={setValues}
+        projects={projects}
       />
     );
   };

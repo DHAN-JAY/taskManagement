@@ -30,6 +30,7 @@ import CreateTaskModal from "./CreateTaskModal";
 
 const Task = () => {
   const [selectedProject, setSelectedProject] = useState("");
+  const [tasks, setTasks] = useState([]);
   const [showTaskFormModal, setShowTaskFormModal] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.project.allProject);
@@ -37,6 +38,26 @@ const Task = () => {
     setSelectedProject(evt.target.value);
   };
   const user = JSON.parse(localStorage.getItem("user_details"));
+
+  const refreshTasks = useCallback(() => {
+      API.post(API_CONSTANT.getAllTasks, selectedProject ?  {
+          projectId: parseInt(selectedProject)
+      } : {})
+        .then((result) => {
+            if(result && result.length)
+                setTasks(result.map(task => {
+                    return {
+                        id: task.taskId,
+                        name: task.taskName,
+                        description: task.taskDesc,
+                        status: task.status ? STATUS_CONSTANTS.completed : STATUS_CONSTANTS.inProgress
+                    }
+                }))
+        })
+        .catch((error) => {
+          dispatch(toaster.error(error.message));
+        });
+  }, [dispatch, setTasks, selectedProject]);
 
   const refreshProjects = useCallback(() => {
     const userDetail = JSON.parse(localStorage.getItem("user_details"));
@@ -55,8 +76,9 @@ const Task = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    refreshProjects();
-  }, [dispatch, refreshProjects]);
+    refreshTasks();
+    refreshProjects()
+  }, [dispatch, refreshTasks, refreshProjects]);
 
   return (
     <Layout>
@@ -66,6 +88,7 @@ const Task = () => {
           heading={"Create Task"}
           okText={"Create"}
           cancelText={"Cancel"}
+          projects={projects}
           onCancelClick={() => {
             setShowTaskFormModal(null);
           }}
@@ -86,18 +109,27 @@ const Task = () => {
               );
               return;
             }
+            if (!updatedData.projectId) {
+              dispatch(
+                toaster.error(
+                  "Please select a Project"
+                )
+              );
+              return;
+            }
 
             const payload = {
               taskName: updatedData.taskName,
               taskDesc: updatedData.description,
               assignedDeveloper: updatedData.assignedDeveloper,
+              projectId: parseInt(updatedData.projectId)
             };
 
             API.post(API_CONSTANT.createTask, payload)
               .then(() => {
                 dispatch(toaster.success(`Task successfully Created`));
                 setShowTaskFormModal(false);
-                // refreshProjects();
+                refreshTasks();
               })
               .catch((error) => {
                 dispatch(toaster.error(error.message));
@@ -151,23 +183,7 @@ const Task = () => {
         )}
       </Card>
       <CustomTable
-        data={[
-          {
-            name: "Djay",
-            description: "24",
-            action: "Admin",
-          },
-          {
-            name: "Djay1",
-            description: "24",
-            action: "Admin",
-          },
-          {
-            name: "Djay2",
-            description: "24",
-            action: "Admin",
-          },
-        ]}
+        data={tasks}
         columns={[
           { dataField: "name", label: "Name" },
           { dataField: "description", label: "Description" },
@@ -205,7 +221,33 @@ const Task = () => {
                     <Selector
                       dataProvider={statusData}
                       label="Staus"
-                      onChange={() => {}}
+                      onChange={() => {
+                        if(data["status"] !== STATUS_CONSTANTS.completed){
+                            API.post(API_CONSTANT.updateTask,{
+                                taskId: parseInt(data.id),
+                                taskStatus: STATUS_CONSTANTS.completed
+                            })
+                            .then(result => {
+                                dispatch(toaster.success(result.success))
+                                refreshTasks()
+                            })
+                            .catch(error => {
+                                dispatch(toaster.error(error.message))
+                            })
+                        } else {
+                            API.post(API_CONSTANT.updateTask,{
+                                taskId: parseInt(data.id),
+                                taskStatus: STATUS_CONSTANTS.inProgress
+                            })
+                            .then(result => {
+                                dispatch(toaster.success(result.success))
+                                refreshTasks()
+                            })
+                            .catch(error => {
+                                dispatch(toaster.error(error.message))
+                            })
+                        }
+                      }}
                       width="80%"
                       value={data["status"]}
                     />
@@ -216,6 +258,21 @@ const Task = () => {
                     label="Completed"
                     checkboxProps={{
                       checked: data["status"] === STATUS_CONSTANTS.completed,
+                      onChange: () => {
+                          if(data["status"] !== STATUS_CONSTANTS.completed){
+                            API.post(API_CONSTANT.updateTask,{
+                                taskId: parseInt(data.id),
+                                taskStatus: STATUS_CONSTANTS.completed
+                            })
+                            .then(result => {
+                                dispatch(toaster.success(result.success))
+                                refreshTasks()
+                            })
+                            .catch(error => {
+                                dispatch(toaster.error(error.message))
+                            })
+                          }
+                      }
                     }}
                   />
                 )}

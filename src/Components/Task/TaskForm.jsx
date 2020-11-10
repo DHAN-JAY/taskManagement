@@ -9,17 +9,18 @@ import { useDispatch } from "react-redux";
 import toaster from "../../AppConfig/MessageToaster/actions";
 
 /**
- * Used to show the basic SignUp of the app.
+ * Used to show task form.
  @returns {*} 
  @param {{
  }} props
 */
 
-const TaskForm = ({ getValuesGetFunction }) => {
+const TaskForm = ({ getValuesGetFunction, projects }) => {
   const [values, setValues] = useState({
     taskName: "",
     description: "",
     assignedDeveloper: 0,
+    projectId: 0
   });
   const [developers, setDevelopers] = useState([])
   const dispatch = useDispatch()
@@ -55,6 +56,13 @@ const TaskForm = ({ getValuesGetFunction }) => {
   return (
     <div className="signUpBody">
       <div>
+        <Selector
+          label="Select Project"
+          onChange={handleChange("projectId")}
+          dataProvider={projects}
+          width="100%"
+          value={values.projectId}
+        />
         <TextField
           label="Name"
           value={values.taskName}

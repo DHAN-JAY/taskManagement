@@ -9,4 +9,6 @@ export const API_CONSTANT = {
     deleteProject: 'project/deleteProject',
     getAllDevelopers: 'user/getAllDevelopers',
     createTask: 'task/createTask',
+    getAllTasks: 'task/getAllTasks',
+    updateTask: 'task/updateTaskStatus'
 }
