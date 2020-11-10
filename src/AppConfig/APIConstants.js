@@ -7,5 +7,6 @@ export const API_CONSTANT = {
     getAllManagers: 'user/getAllManagers',
     getAllProjects: 'project/getAllProjects',
     deleteProject: 'project/deleteProject',
-    getAllDevelopers: 'user/getAllDevelopers'
+    getAllDevelopers: 'user/getAllDevelopers',
+    createTask: 'task/createTask',
 }

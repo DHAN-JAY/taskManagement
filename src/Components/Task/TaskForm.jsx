@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import TextField from "../Shared/TextField";
 import Selector from "../Shared/Selector";
 import "../SignUp/sigin.styles.css";
@@ -14,11 +15,11 @@ import toaster from "../../AppConfig/MessageToaster/actions";
  }} props
 */
 
-const TaskForm = () => {
+const TaskForm = ({ getValuesGetFunction }) => {
   const [values, setValues] = useState({
-    projectName: "",
+    taskName: "",
     description: "",
-    assignedManager: 0,
+    assignedDeveloper: 0,
   });
   const [developers, setDevelopers] = useState([])
   const dispatch = useDispatch()
@@ -43,13 +44,21 @@ const TaskForm = () => {
       })
   },[dispatch])
 
+  useEffect(() => {
+    if (getValuesGetFunction) {
+      getValuesGetFunction(() => {
+        return values;
+      });
+    }
+  }, [getValuesGetFunction, values]);
+
   return (
     <div className="signUpBody">
       <div>
         <TextField
           label="Name"
-          value={values.projectName}
-          onChange={handleChange("projectName")}
+          value={values.taskName}
+          onChange={handleChange("taskName")}
         />
         <TextField
           label="Deascription"
