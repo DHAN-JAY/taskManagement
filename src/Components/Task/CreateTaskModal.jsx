@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import CustomModal from '../Shared/CustomModal'
-import InputButton from '../Shared/InputButton'
-import commonStyles from '../Shared/styles/common'
-import TaskForm from './TaskForm'
+import React, { useState } from "react";
+import CustomModal from "../Shared/CustomModal";
+import InputButton from "../Shared/InputButton";
+import commonStyles from "../Shared/styles/common";
+import TaskForm from "./TaskForm";
 
 /**
  * Used to show confirmation dialog with two button continue and cancel.
@@ -19,67 +19,76 @@ import TaskForm from './TaskForm'
  }} props
 */
 
-const CreateTaskModal = ({ heading, okText, cancelText, onContinueClick, onCancelClick, open }) => {
-    const commonClasses = commonStyles()
-    const [values, setValues] = useState(
-        {
-        projectName: "",
-        description: "",
-        assignedDeveloper: 0
-      });
+const CreateTaskModal = ({
+  heading,
+  okText,
+  cancelText,
+  onContinueClick,
+  onCancelClick,
+  open,
+}) => {
+  const commonClasses = commonStyles();
+  const [values, setValues] = useState({
+    projectName: "",
+    description: "",
+    assignedDeveloper: 0,
+  });
 
-    const footerComponent = () => {
-
-        return (
-            <div className={commonClasses.footerConfirmDialogContainer}>
-                <InputButton
-                    buttonStyle={commonClasses.cancelButton}
-                    buttonProps={
-                        {
-                            type: 'button',
-                            onClick: onCancelClick
-                        }
-                    }
-                >
-                    {cancelText || "Cancel"}
-                </InputButton>
-                <InputButton
-                    buttonStyle={commonClasses.saveButton}
-                    buttonProps={
-                        {
-                            type: 'button',
-                            onClick: onContinueClick
-                        }
-                    }
-                    rootProps={{
-                        style: {
-                            marginLeft: '16px'
-                        }
-                    }}
-                >
-                    {okText || "Continue"}
-                </InputButton>
-            </div>
-        )
-    }
-
-    const bodyComponent = () => {
-
-        return (
-            <TaskForm values={values} setValues={setValues} />
-        )
-    }
-
+  const footerComponent = () => {
     return (
-        <CustomModal 
-            open={open}
-            heading={heading || "Confirmation Dialog"}
-            closeModal={onCancelClick}
-            component={bodyComponent}
-            footerComponent={footerComponent}
-        />
-    )
+      <div className={commonClasses.footerConfirmDialogContainer}>
+        <InputButton
+          buttonStyle={commonClasses.cancelButton}
+          buttonProps={{
+            type: "button",
+            onClick: onCancelClick,
+          }}
+        >
+          {cancelText || "Cancel"}
+        </InputButton>
+        <InputButton
+          buttonStyle={commonClasses.saveButton}
+          buttonProps={{
+            type: "button",
+            onClick: () => {
+                if(onContinueClick && CreateTaskModal.getFunction){
+                    onContinueClick(CreateTaskModal.getFunction())
+                }
+            },
+          }}
+          rootProps={{
+            style: {
+              marginLeft: "16px",
+            },
+          }}
+        >
+          {okText || "Continue"}
+        </InputButton>
+      </div>
+    );
+  };
 
-}
+  const bodyComponent = () => {
+    return (
+      <TaskForm
+        getValuesGetFunction={(getFunction) => {
+            CreateTaskModal.getFunction = getFunction;
+        }}
+        values={values}
+        setValues={setValues}
+      />
+    );
+  };
 
-export default CreateTaskModal
+  return (
+    <CustomModal
+      open={open}
+      heading={heading || "Confirmation Dialog"}
+      closeModal={onCancelClick}
+      component={bodyComponent}
+      footerComponent={footerComponent}
+    />
+  );
+};
+
+export default CreateTaskModal;

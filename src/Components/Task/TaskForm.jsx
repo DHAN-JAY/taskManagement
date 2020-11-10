@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "../Shared/TextField";
 import Selector from "../Shared/Selector";
 import { Roles } from "../../AppConfig/constants";
-import '../SignUp/sigin.styles.css'
+import "../SignUp/sigin.styles.css";
 
 /**
  * Used to show the basic SignUp of the app.
@@ -13,39 +13,41 @@ import '../SignUp/sigin.styles.css'
  }} props
 */
 
-const TaskForm = ({
-  values,
-  setValues
-}) => {
+const TaskForm = () => {
+  const [values, setValues] = useState({
+    projectName: "",
+    description: "",
+    assignedManager: 0,
+  });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
   return (
-        <div className="signUpBody">
-          <div>
-            <TextField
-              label="Name"
-              value={values.projectName}
-              onChange={handleChange("projectName")}
-            />
-            <TextField
-              label="Deascription"
-              margin="10px 0px 0px 0px"
-              multiline
-              value={values.description}
-              onChange={handleChange("description")}
-            />
-            <Selector
-              label="Assign Developer"
-              onChange={handleChange("assignedDeveloper")}
-              dataProvider={Roles}
-              width='100%'
-              value={values.assignedDeveloper}
-            />
-          </div>
-          </div>
+    <div className="signUpBody">
+      <div>
+        <TextField
+          label="Name"
+          value={values.projectName}
+          onChange={handleChange("projectName")}
+        />
+        <TextField
+          label="Deascription"
+          margin="10px 0px 0px 0px"
+          multiline
+          value={values.description}
+          onChange={handleChange("description")}
+        />
+        <Selector
+          label="Assign Developer"
+          onChange={handleChange("assignedDeveloper")}
+          dataProvider={Roles}
+          width="100%"
+          value={values.assignedDeveloper}
+        />
+      </div>
+    </div>
   );
 };
 
